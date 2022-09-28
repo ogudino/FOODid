@@ -4,7 +4,7 @@
   <img src="https://media.giphy.com/media/l2SpQ0pTWgKGQ7Z7i/giphy.gif" width="250"/>
 </div>
 
-## :hammer_and_wrench: Built With
+## :hammer_and_wrench:  Built With
 <div>
   <img src="https://github.com/devicons/devicon/blob/master/icons/java/java-original-wordmark.svg" title="Java" alt="Java" width="85" height="85"/>&nbsp;
   <img src="https://github.com/devicons/devicon/blob/master/icons/react/react-original-wordmark.svg" title="React" alt="React Native" width="85" height="85"/>&nbsp;
@@ -16,7 +16,11 @@
   <img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original-wordmark.svg" title="NodeJS" alt="NodeJS" width="85" height="85"/>&nbsp;
   <img src="https://github.com/devicons/devicon/blob/master/icons/git/git-original-wordmark.svg" title="Git" **alt="Git" width="85" height="85">&nbsp;
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg" title="VSCode" **alt="VSCode" width="85" height="85"/>&nbsp;
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg"title="Android" **alt="Android" width="85" height="85"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" title="Android" **alt="Android" width="85" height="85"/>&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/objectivec/objectivec-plain.svg" title="ObjC" **alt="ObjC" width="85" height="85"/>&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-plain.svg" title="Kotlin" **alt="Kotlin" width="85" height="85"/>
+
+
 
 </div>
 
