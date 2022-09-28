@@ -1,5 +1,5 @@
 # FOODid
 
-![alt text](Macintosh HD://Users/ogudino/Pictures/IMG_3721)
+![alt text](/Users/ogudino/Development/projects/FOODid/assets/icons/githubpp.png)
 
  
