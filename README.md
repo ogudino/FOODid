@@ -1,12 +1,10 @@
 # FOODid
 
-![Alt text](/assets/icons/githubpp.png "Optional title")
-
 <img
   src="/assets/icons/githubpp.png"
   alt="Alt text"
-  title="Optional title"
-  style="display: inline-block; margin: 0 auto; width:128px;height:128px;">
+  title="Memoji"
+  style="display: inline-block; margin: 0 auto; position: absolute; width:128px;height:128px;">
 
 
  
