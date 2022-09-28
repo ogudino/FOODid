@@ -13,7 +13,7 @@ const ScanScreen = ({navigation}) => {
   const devices = useCameraDevices();
   const device = devices.back;
 
-  //  const isFocused = useIsFocused();
+  const isFocused = useIsFocused();
 
   const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.ALL_FORMATS], {
     checkInverted: true,
@@ -41,7 +41,7 @@ const ScanScreen = ({navigation}) => {
         <Camera
           style={StyleSheet.absoluteFill}
           device={device}
-          isActive={true}
+          isActive={isFocused}
           frameProcessor={frameProcessor}
           frameProcessorFps={5}
         />
