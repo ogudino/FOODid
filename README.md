@@ -1,10 +1,6 @@
 # FOODid
+  
+<div id="header" align="center">
+  <img src="https://media.giphy.com/media/l2SpQ0pTWgKGQ7Z7i/giphy.gif" width="250"/>
+</div>
 
-<img
-  src="/assets/icons/githubpp.png"
-  alt="Alt text"
-  title="Memoji"
-  style="position: absolute; align: center; width:128px;height:128px;">
-
-
- 
