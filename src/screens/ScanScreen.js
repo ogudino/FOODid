@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { StyleSheet, Text } from 'react-native';
 import { useCameraDevices } from 'react-native-vision-camera';
 import { Camera } from 'react-native-vision-camera';
@@ -8,24 +7,20 @@ import { useIsFocused } from '@react-navigation/native';
 
 const ScanScreen = ({navigation}) => {
 
-
   const [hasPermission, setHasPermission] = React.useState(false);
   const devices = useCameraDevices();
   const device = devices.back;
-
   const isFocused = useIsFocused();
 
-  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.ALL_FORMATS], {
+  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.UPC_A], {
     checkInverted: true,
   });
 
-  // Alternatively you can use the underlying function:
-  //
-  // const frameProcessor = useFrameProcessor((frame) => {
-  //   'worklet';
-  //   const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.QR_CODE], { checkInverted: true });
-  //   runOnJS(setBarcodes)(detectedBarcodes);
-  // }, []);
+  // const barcodeRecognized = ({ type, data }) => {
+  //   setScanned(true)
+  //   setText(data)
+  //   console.log("Type: ")
+  // }
 
   React.useEffect(() => {
     (async () => {
@@ -34,6 +29,7 @@ const ScanScreen = ({navigation}) => {
       setHasPermission(status === 'authorized');
     })();
   }, []);
+  
   return (
     device != null &&
     hasPermission && (
@@ -48,15 +44,15 @@ const ScanScreen = ({navigation}) => {
         {barcodes.map((barcode, idx) => (
           <Text key={idx} style={styles.barcodeTextURL}>
             {barcode.displayValue}
-          </Text>
+            {console.log("barcode: ", barcode.displayValue)}
+          </Text> 
         ))}
       </>
     )
   );
 }
 
-
-  export default ScanScreen
+export default ScanScreen 
 
 const styles = StyleSheet.create({
     container: {
