@@ -1,5 +1,7 @@
 import React from "react";
-import { View, Text, Button, StyleSheet} from "react-native"
+import Inputs from "../components/NewItemInput";
+import { View, Text, Button, StyleSheet, Modal} from "react-native"
+
 
 const NewItemScreen = ({navigation}) => {
     return (
@@ -12,6 +14,7 @@ const NewItemScreen = ({navigation}) => {
         </View>
     )
 }
+
 
 export default NewItemScreen
 
