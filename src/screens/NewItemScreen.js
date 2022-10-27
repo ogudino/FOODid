@@ -1,5 +1,4 @@
 import React from "react";
-import Inputs from "../components/NewItemInput";
 import { View, Text, Button, StyleSheet, Modal} from "react-native"
 
 

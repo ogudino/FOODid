@@ -4,28 +4,35 @@ import { useCameraDevices } from 'react-native-vision-camera';
 import { Camera } from 'react-native-vision-camera';
 import { useScanBarcodes, BarcodeFormat } from 'vision-camera-code-scanner';
 import { useIsFocused } from '@react-navigation/native';
-import { NavigationAction } from '@react-navigation/native';
-import Scanned from '../components/ScannedBarcode'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import firestore from '@react-native-firebase/firestore';
 
 const ScanScreen = ({navigation}) => {
 
   const [hasPermission, setHasPermission] = React.useState(false);
-  const [hasAlerted, setHasAlerted] = React.useState(false);
+  const [barcode, setBarcode] = React.useState("default");
   const [modalVisible, setModalVisible] = React.useState(false);
-
+  const [foodItem, setFoodItem] = React.useState({
+    nutritionalfacts: {
+      calories: "N/A",
+      cholesterol: "N/A", 
+      dietaryfiber: "N/A", 
+      includesaddedsugars: "N/A", 
+      protein: "N/A", 
+      saturatedfat: "N/A", 
+      servingsize: "N/A", 
+      servingspercontainer: "N/A", 
+      sodium: "N/A", 
+      totalcarbs: "N/A", 
+      totalfat: "N/A", 
+      totalsugars: "N/A", 
+      transfat: "N/A"
+    }
+  });
+  
   const devices = useCameraDevices();
   const device = devices.back;
   const isFocused = useIsFocused();
-
-  // function ModalScreen({ navigation }) {
-  //   return (
-  //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-  //       <Text style={{ fontSize: 30 }}>This is a modal!</Text>
-  //       <Button onPress={() => navigation.goBack()} title="Dismiss" />
-  //     </View>
-  //   );
-  // }
 
   var [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.UPC_A], {
     checkInverted: true,
@@ -41,9 +48,7 @@ const ScanScreen = ({navigation}) => {
 
   React.useEffect(() => {
     barcodes = []
-    setHasAlerted(false)
   }, [isFocused]);
-
   
   return (
     device != null &&
@@ -61,27 +66,70 @@ const ScanScreen = ({navigation}) => {
               transparent={true}
               visible={modalVisible}
               onRequestClose = {() => {
-                Alert.alert("modal has been closed");
-                setModalVisible(!modalVisible);
+              setModalVisible(!modalVisible);
               }}
               >
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Hello World</Text>
+                <Text style={styles.modalText}>Barcode: {barcode}</Text>
+                  <View><Text style={styles.modalText}>About {foodItem.nutritionalfacts.servingspercontainer} servings per container</Text></View>
+                  <View><Text style={styles.modalText}>Serving size : {foodItem.nutritionalfacts.servingsize} </Text></View>
+                  <View><Text style={styles.modalText}>Calories : {foodItem.nutritionalfacts.calories} </Text></View>
+                  <View><Text style={styles.modalText}>Total Fat : {foodItem.nutritionalfacts.totalfat} </Text></View>
+                  <View><Text style={styles.modalText}>Saturated Fat : {foodItem.nutritionalfacts.saturatedfat} </Text></View>
+                  <View><Text style={styles.modalText}>Trans Fat : {foodItem.nutritionalfacts.transfat} </Text></View>
+                  <View><Text style={styles.modalText}>Cholesterol : {foodItem.nutritionalfacts.cholesterol} </Text></View>
+                  <View><Text style={styles.modalText}>Sodium : {foodItem.nutritionalfacts.sodium} </Text></View>
+                  <View><Text style={styles.modalText}>Total Carbohydrate : {foodItem.nutritionalfacts.totalcarbs} </Text></View>
+                  <View><Text style={styles.modalText}>Dietary Fiber : {foodItem.nutritionalfacts.dietaryfiber} </Text></View>
+                  <View><Text style={styles.modalText}>Total Sugars : {foodItem.nutritionalfacts.totalsugars} </Text></View>
+                  <View><Text style={styles.modalText}>Includes {foodItem.nutritionalfacts.includesaddedsugars} Added Sugars </Text></View>
+                  <View><Text style={styles.modalText}>Protein : {foodItem.nutritionalfacts.protein} </Text></View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress = {() => setModalVisible(false)}
+                  onPress = {() => {
+                    setModalVisible(false)
+                    setFoodItem({
+                      nutritionalfacts: {
+                        calories: "N/A",
+                        cholesterol: "N/A", 
+                        dietaryfiber: "N/A", 
+                        includesaddedsugars: "N/A", 
+                        protein: "N/A", 
+                        saturatedfat: "N/A", 
+                        servingsize: "N/A", 
+                        servingspercontainer: "N/A", 
+                        sodium: "N/A", 
+                        totalcarbs: "N/A", 
+                        totalfat: "N/A", 
+                        totalsugars: "N/A", 
+                        transfat: "N/A"
+                      }
+                    })
+                    barcodes = []
+                  }}
                   >
-                  <Text style = {styles.textStyle}>Hide Modal</Text>
+                  <Text style = {styles.textStyle}>Close</Text>
                 </Pressable>
               </View>
             </Modal>
-        {barcodes.map((barcode, idx) => {
-          {barcode.displayValue}
+        {barcodes.map((newBarcode, idx) => {
+          {newBarcode.displayValue}
           if (!modalVisible){
-            //  setHasAlerted(true); 
-            // alert(`
-            // Barcode: ${barcode.displayValue} 
-            // `);dorio
+            setBarcode(newBarcode.displayValue)
+            const userDocument = firestore()
+                  .collection('fooditems')
+                  .doc(newBarcode.displayValue)
+                  .get()
+                  .then(querySnapshot => { 
+                    console.log('fooditem: ', querySnapshot._data);
+                    if (querySnapshot._data) {
+                      setFoodItem(querySnapshot._data)
+                    }
+                    else {
+                      //add barcode newitem screen
+                    }
+                  });
+            
             setModalVisible(true)
           }
         })}
@@ -99,13 +147,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: "#8fcbbc",
     },
-    barcodeTextURL: {
-        fontSize: 20,
-        color: 'white',
-        fontWeight: 'bold',
-      },
       modalView: {
-        margin: 20,
+        margin: 10,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,
@@ -124,18 +167,11 @@ const styles = StyleSheet.create({
         padding: 10,
         elevation: 2
       },
-      buttonOpen: {
-        backgroundColor: "#F194FF",
-      },
       buttonClose: {
         backgroundColor: "#2196F3",
       },
-      textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-      },
       modalText: {
+        color: "black",
         marginBottom: 15,
         textAlign: "center"
       }
