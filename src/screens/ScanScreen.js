@@ -11,7 +11,9 @@ const ScanScreen = ({navigation}) => {
 
   const [hasPermission, setHasPermission] = React.useState(false);
   const [barcode, setBarcode] = React.useState("default");
+  const [modalNewItemVisible, setModalNewItemVisible] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [barcodeFound, setBarcodeFound] = React.useState(false);
   const [foodItem, setFoodItem] = React.useState({
     nutritionalfacts: {
       calories: "N/A",
@@ -48,6 +50,7 @@ const ScanScreen = ({navigation}) => {
 
   React.useEffect(() => {
     barcodes = []
+    setBarcodeFound(false)
   }, [isFocused]);
   
   return (
@@ -64,9 +67,34 @@ const ScanScreen = ({navigation}) => {
               <Modal
               animationType="slide"
               transparent={true}
+              visible={modalNewItemVisible}
+              onRequestClose = {() => {
+              setModalNewItemVisible(false);
+              }}
+              >
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Barcode not recognized: {barcode}</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress = {() => {
+                    navigation.navigate('New Item' , {
+                    params: { barcodeId: barcode }
+                    })
+                    setModalNewItemVisible(false)
+
+                    barcodes = []
+                  }}
+                  >
+                  <Text style = {styles.textStyle}>Close</Text>
+                </Pressable>
+              </View>
+            </Modal>
+<Modal
+              animationType="slide"
+              transparent={true}
               visible={modalVisible}
               onRequestClose = {() => {
-              setModalVisible(!modalVisible);
+              setModalVisible(false);
               }}
               >
               <View style={styles.modalView}>
@@ -106,6 +134,7 @@ const ScanScreen = ({navigation}) => {
                       }
                     })
                     barcodes = []
+                    setBarcodeFound(false)
                   }}
                   >
                   <Text style = {styles.textStyle}>Close</Text>
@@ -114,7 +143,8 @@ const ScanScreen = ({navigation}) => {
             </Modal>
         {barcodes.map((newBarcode, idx) => {
           {newBarcode.displayValue}
-          if (!modalVisible){
+          if (!barcodeFound){
+            console.log("something")
             setBarcode(newBarcode.displayValue)
             const userDocument = firestore()
                   .collection('fooditems')
@@ -122,15 +152,17 @@ const ScanScreen = ({navigation}) => {
                   .get()
                   .then(querySnapshot => { 
                     console.log('fooditem: ', querySnapshot._data);
-                    if (querySnapshot._data) {
+                    if (querySnapshot._data && Object.keys(querySnapshot._data).length != 0) {
                       setFoodItem(querySnapshot._data)
+                      setModalVisible(true)
                     }
                     else {
                       //add barcode newitem screen
+                      setModalNewItemVisible(true)
                     }
                   });
-            
-            setModalVisible(true)
+                  setBarcodeFound(true)
+                  // setModalVisible(true)
           }
         })}
       </>

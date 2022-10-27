@@ -2,7 +2,9 @@ import React from "react";
 import { View, Text, Button, StyleSheet, Modal} from "react-native"
 
 
-const NewItemScreen = ({navigation}) => {
+const NewItemScreen = ({route, navigation}) => {
+    //const {barcodeId} = route.params;
+    console.log("Barcode ID:" , route.params )
     return (
         <View style={styles.container}>
             <Text>New Item Screen</Text>
