@@ -6,6 +6,7 @@ import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 import {useIsFocused} from '@react-navigation/native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import firestore from '@react-native-firebase/firestore';
+import  AsyncStorage  from '@react-native-async-storage/async-storage';
 
 const ScanScreen = ({navigation}) => {
   const [hasPermission, setHasPermission] = React.useState(false);
@@ -34,6 +35,26 @@ const ScanScreen = ({navigation}) => {
   const devices = useCameraDevices();
   const device = devices.back;
   const isFocused = useIsFocused();
+
+  const storeData = async (barcode) => {
+    console.log("barcodestoredata: ", barcode)
+    try {
+      await AsyncStorage.setItem('barcode', barcode)
+      console.log("storedata: ", barcode)
+    } catch (e) {
+      console.log("error saving data", e)
+    }
+  }
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('barcode')
+        if(value!==null) {
+          return value
+        }
+      } catch(e) {
+
+      }
+    }
 
   var [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.UPC_A], {
     checkInverted: true,
@@ -175,6 +196,21 @@ const ScanScreen = ({navigation}) => {
             </View>
             <Pressable
               style={[styles.button, styles.buttonClose]}
+              onPress={async() => {
+                // navigation.navigate('Bookmarks', {
+                //   params: {barcodeId: barcode},
+                // });
+                  await storeData(barcode)
+                  console.log("Saved barcode", await getData())
+                //}
+                setModalVisible(false);
+
+                barcodes = [];
+              }}>
+              <Text style={styles.textStyle}>Add to Bookmarks</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 setModalVisible(false);
                 setFoodItem({
@@ -206,7 +242,6 @@ const ScanScreen = ({navigation}) => {
             newBarcode.displayValue;
           }
           if (!barcodeFound) {
-            console.log('something');
             setBarcode(newBarcode.displayValue);
             const userDocument = firestore()
               .collection('fooditems')

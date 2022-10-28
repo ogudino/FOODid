@@ -13,16 +13,16 @@ import firestore from '@react-native-firebase/firestore';
 //const usersID = await firestore().collection('Users').get();
 //const userDocument = firestore().collection('Users').doc('userid');
 //await func() {
-const userDocument = firestore()
-  .collection('Users')
-  .get()
-  .then(querySnapshot => {
-    console.log('Total users: ', querySnapshot.size);
+// const userDocument = firestore()
+//   .collection('Users')
+//   .get()
+//   .then(querySnapshot => {
+//     console.log('Total users: ', querySnapshot.size);
 
-    querySnapshot.forEach(documentSnapshot => {
-      console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-    });
-  });
+//     querySnapshot.forEach(documentSnapshot => {
+//       console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+//     });
+//   });
 //}
 
 //const users = useEffect(() => firestore().collection('Users').get());

@@ -1,12 +1,24 @@
+import { TestScheduler } from 'jest';
 import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {View, Text, Button, StyleSheet, Modal, FlatList, Touchable, TouchableWithoutFeedback} from 'react-native';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
-const BookmarkScreen = ({navigation}) => {
+const BookmarkScreen = ({route, navigation}) => {
+  
+  // console.log("route: ", route.params.params.barcodeId);
+
   return (
-    <View style={styles.container}>
-      <Text>Bookmark Screen</Text>
-      <Button title="Click Here" onPress={() => alert('Button Pressed!')} />
-    </View>
+    <FlatList
+
+    renderItem={({route}) => (
+      <TouchableWithoutFeedback>
+        <View>
+          <Text> Barcode: {route}</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    )}
+
+    />
   );
 };
 
