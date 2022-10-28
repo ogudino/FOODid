@@ -1,14 +1,14 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import Tabs from './src/navigation/tab'
+import {StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import Tabs from './src/navigation/tab';
 
 const App = () => {
   return (
-      <NavigationContainer>
-        <Tabs />
-      </NavigationContainer>
+    <NavigationContainer>
+      <Tabs />
+    </NavigationContainer>
   );
-}
+};
 
 export default App;

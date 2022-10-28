@@ -1,25 +1,22 @@
-import React from "react";
-import { View, Text, Button, StyleSheet} from "react-native"
+import React from 'react';
+import {View, Text, Button, StyleSheet} from 'react-native';
 
 const SettingsScreen = ({navigation}) => {
-    return (
-        <View style={styles.container}>
-            <Text>Setting Screen</Text>
-            <Button
-            title="Click Here"
-            onPress={() => alert("Button Pressed!")}
-            />
-        </View>
-    )
-}
+  return (
+    <View style={styles.container}>
+      <Text>Setting Screen</Text>
+      <Button title="Click Here" onPress={() => alert('Button Pressed!')} />
+    </View>
+  );
+};
 
-export default SettingsScreen
+export default SettingsScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: "#8fcbbc",
-    },
-})
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#8fcbbc',
+  },
+});
