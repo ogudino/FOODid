@@ -152,7 +152,7 @@ const ScanScreen = ({navigation}) => {
                   .get()
                   .then(querySnapshot => { 
                     console.log('fooditem: ', querySnapshot._data);
-                    if (querySnapshot._data && Object.keys(querySnapshot._data).length != 0) {
+                    if (querySnapshot._data) {
                       setFoodItem(querySnapshot._data)
                       setModalVisible(true)
                     }
