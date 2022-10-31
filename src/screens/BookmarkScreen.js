@@ -1,24 +1,66 @@
 import { TestScheduler } from 'jest';
+import {useIsFocused} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, Button, StyleSheet, Modal, FlatList, Touchable, TouchableWithoutFeedback} from 'react-native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BottomTabBarHeightCallbackContext } from '@react-navigation/bottom-tabs/lib/typescript/src';
 
 const BookmarkScreen = ({route, navigation}) => {
-  
-  // console.log("route: ", route.params.params.barcodeId);
+  const [bookmarks, setBookmarks] = React.useState(null);
+  const isFocused = useIsFocused();
+
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@bookmarks')
+      if(value!==null) {
+        // if (!bookmarks.includes(barcode)){
+        //   bookmarks.push(barcode)
+          // console.log(bookmarks)
+
+        //}
+        setBookmarks(JSON.parse(value).barcodes)
+      }
+    } catch(e) {
+      console.log("error getData", e)
+    }
+  }
+
+  const deleteBookmark = async() => {
+    
+  }
+
+  React.useEffect(() => {
+    (async =>  {
+      getData();
+    })();
+  }, []);
+
+  React.useEffect(() => {
+    (async =>  {
+      getData();
+    })();
+  }, [isFocused]);
+
 
   return (
-    <FlatList
 
-    renderItem={({route}) => (
-      <TouchableWithoutFeedback>
-        <View>
-          <Text> Barcode: {route}</Text>
-        </View>
-      </TouchableWithoutFeedback>
-    )}
-
-    />
+        <View style={styles.container}>
+          <FlatList 
+            data={bookmarks}
+            renderItem={({item}) => (
+             <View> 
+              <Text style={styles.item}>{item}</Text>
+              <Pressable style={styles.button} onPress={() => {
+                console.log("something")
+              }}>
+                <Text>Delete</Text>
+              </Pressable>
+              </View>
+            )}  
+          />
+          </View>
   );
 };
 
@@ -27,8 +69,23 @@ export default BookmarkScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // paddingTop: 40,
+    paddingHorizontal: 20,
     backgroundColor: '#8fcbbc',
   },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: '#2196F3'
+  },
+  item: {
+    flex: 1,
+    marginHorizontal: 10,
+    marginTop: 24,
+    padding: 30,
+    backgroundColor: '#ffff',
+    fontSize: 24,
+    color: 'black',
+   },
 });

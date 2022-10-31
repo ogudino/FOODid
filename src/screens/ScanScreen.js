@@ -6,7 +6,7 @@ import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 import {useIsFocused} from '@react-navigation/native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import firestore from '@react-native-firebase/firestore';
-import  AsyncStorage  from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ScanScreen = ({navigation}) => {
   const [hasPermission, setHasPermission] = React.useState(false);
@@ -36,25 +36,45 @@ const ScanScreen = ({navigation}) => {
   const device = devices.back;
   const isFocused = useIsFocused();
 
+  // const bookmark = [];
+
   const storeData = async (barcode) => {
-    console.log("barcodestoredata: ", barcode)
+    // console.log("barcodestoredata: ", barcode)
+    // var bookmarks = [barcode];
     try {
-      await AsyncStorage.setItem('barcode', barcode)
+      const value = await AsyncStorage.getItem('@bookmarks')
+
+      let bookmarks = JSON.parse(value)
+
+      console.log("Bookmarks: ", bookmarks)
+
+      if (bookmarks) {
+        if (!bookmarks.barcodes.includes(barcode)){
+          bookmarks.barcodes.push(barcode)
+        }
+      } else {
+        bookmarks = {
+          barcodes: [barcode]
+        }
+      }
+
+      await AsyncStorage.setItem('@bookmarks', JSON.stringify(bookmarks))
       console.log("storedata: ", barcode)
     } catch (e) {
       console.log("error saving data", e)
     }
   }
-    const getData = async () => {
-      try {
-        const value = await AsyncStorage.getItem('barcode')
-        if(value!==null) {
-          return value
-        }
-      } catch(e) {
+    // const getData = async () => {
+    //   try {
+    //     const value = await AsyncStorage.getItem('bookmarks')
+    //     if(value!==null) {
+    //       // return bookmarks
+    //       console.log("Read data:" , value)
+    //     }
+    //   } catch(e) {
 
-      }
-    }
+    //   }
+    // }
 
   var [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.UPC_A], {
     checkInverted: true,
@@ -201,10 +221,10 @@ const ScanScreen = ({navigation}) => {
                 //   params: {barcodeId: barcode},
                 // });
                   await storeData(barcode)
-                  console.log("Saved barcode", await getData())
+                  // console.log("Saved barcode", await getData())
                 //}
                 setModalVisible(false);
-
+                setBarcodeFound(false)
                 barcodes = [];
               }}>
               <Text style={styles.textStyle}>Add to Bookmarks</Text>

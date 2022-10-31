@@ -36,7 +36,7 @@ const NewItemScreen = ({route, navigation}) => {
             onChangeBarcode(null)
             route.params = null 
             setFoodItem({
-                nutritionalfacts: {
+  
                     calories: null,
                     cholesterol: null, 
                     dietaryfiber: null, 
@@ -50,7 +50,7 @@ const NewItemScreen = ({route, navigation}) => {
                     totalfat: null, 
                     totalsugars: null, 
                     transfat: null
-                }
+                
             })
         }
     })();
