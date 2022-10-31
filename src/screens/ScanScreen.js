@@ -38,43 +38,43 @@ const ScanScreen = ({navigation}) => {
 
   // const bookmark = [];
 
-  const storeData = async (barcode) => {
+  const storeData = async barcode => {
     // console.log("barcodestoredata: ", barcode)
     // var bookmarks = [barcode];
     try {
-      const value = await AsyncStorage.getItem('@bookmarks')
+      const value = await AsyncStorage.getItem('@bookmarks');
 
-      let bookmarks = JSON.parse(value)
+      let bookmarks = JSON.parse(value);
 
-      console.log("Bookmarks: ", bookmarks)
+      console.log('Bookmarks: ', bookmarks);
 
       if (bookmarks) {
-        if (!bookmarks.barcodes.includes(barcode)){
-          bookmarks.barcodes.push(barcode)
+        if (!bookmarks.barcodes.includes(barcode)) {
+          bookmarks.barcodes.push(barcode);
         }
       } else {
         bookmarks = {
-          barcodes: [barcode]
-        }
+          barcodes: [barcode],
+        };
       }
 
-      await AsyncStorage.setItem('@bookmarks', JSON.stringify(bookmarks))
-      console.log("storedata: ", barcode)
+      await AsyncStorage.setItem('@bookmarks', JSON.stringify(bookmarks));
+      console.log('storedata: ', barcode);
     } catch (e) {
-      console.log("error saving data", e)
+      console.log('error saving data', e);
     }
-  }
-    // const getData = async () => {
-    //   try {
-    //     const value = await AsyncStorage.getItem('bookmarks')
-    //     if(value!==null) {
-    //       // return bookmarks
-    //       console.log("Read data:" , value)
-    //     }
-    //   } catch(e) {
+  };
+  // const getData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('bookmarks')
+  //     if(value!==null) {
+  //       // return bookmarks
+  //       console.log("Read data:" , value)
+  //     }
+  //   } catch(e) {
 
-    //   }
-    // }
+  //   }
+  // }
 
   var [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.UPC_A], {
     checkInverted: true,
@@ -216,15 +216,15 @@ const ScanScreen = ({navigation}) => {
             </View>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={async() => {
+              onPress={async () => {
                 // navigation.navigate('Bookmarks', {
                 //   params: {barcodeId: barcode},
                 // });
-                  await storeData(barcode)
-                  // console.log("Saved barcode", await getData())
+                await storeData(barcode);
+                // console.log("Saved barcode", await getData())
                 //}
                 setModalVisible(false);
-                setBarcodeFound(false)
+                setBarcodeFound(false);
                 barcodes = [];
               }}>
               <Text style={styles.textStyle}>Add to Bookmarks</Text>
