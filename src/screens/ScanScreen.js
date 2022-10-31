@@ -36,11 +36,7 @@ const ScanScreen = ({navigation}) => {
   const device = devices.back;
   const isFocused = useIsFocused();
 
-  // const bookmark = [];
-
   const storeData = async barcode => {
-    // console.log("barcodestoredata: ", barcode)
-    // var bookmarks = [barcode];
     try {
       const value = await AsyncStorage.getItem('@bookmarks');
 
@@ -64,17 +60,6 @@ const ScanScreen = ({navigation}) => {
       console.log('error saving data', e);
     }
   };
-  // const getData = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('bookmarks')
-  //     if(value!==null) {
-  //       // return bookmarks
-  //       console.log("Read data:" , value)
-  //     }
-  //   } catch(e) {
-
-  //   }
-  // }
 
   var [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.UPC_A], {
     checkInverted: true,
@@ -217,12 +202,7 @@ const ScanScreen = ({navigation}) => {
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={async () => {
-                // navigation.navigate('Bookmarks', {
-                //   params: {barcodeId: barcode},
-                // });
                 await storeData(barcode);
-                // console.log("Saved barcode", await getData())
-                //}
                 setModalVisible(false);
                 setBarcodeFound(false);
                 barcodes = [];
