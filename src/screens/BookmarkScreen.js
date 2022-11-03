@@ -29,7 +29,28 @@ const BookmarkScreen = ({route, navigation}) => {
     }
   };
 
-  const deleteBookmark = async () => {};
+  const deleteBookmark = async barcode => {
+    try {
+      const value = await AsyncStorage.getItem('@bookmarks');
+      let savedBookmarks = JSON.parse(value);
+      if (savedBookmarks) {
+        if (savedBookmarks.barcodes) {
+          const result = savedBookmarks.barcodes.filter(code => {
+            console.log('code: ', code);
+            return barcode != code;
+          });
+          savedBookmarks.barcodes = result;
+          await AsyncStorage.setItem(
+            '@bookmarks',
+            JSON.stringify(savedBookmarks),
+          );
+          setBookmarks(savedBookmarks.barcodes);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   React.useEffect(() => {
     (async => {
@@ -53,7 +74,9 @@ const BookmarkScreen = ({route, navigation}) => {
             <Pressable
               style={styles.button}
               onPress={() => {
-                console.log('something');
+                deleteBookmark(item);
+                getData();
+                console.log(item);
               }}>
               <Text>Delete</Text>
             </Pressable>
