@@ -10,11 +10,14 @@ import {
   FlatList,
   Touchable,
   TouchableWithoutFeedback,
+  TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BookmarkScreen = ({route, navigation}) => {
+  const [modalVisible, setModalVisible] = React.useState(false);
   const [bookmarks, setBookmarks] = React.useState(null);
   const isFocused = useIsFocused();
 
@@ -69,18 +72,38 @@ const BookmarkScreen = ({route, navigation}) => {
       <FlatList
         data={bookmarks}
         renderItem={({item}) => (
-          <View>
-            <Text style={styles.item}>{item}</Text>
-            <Pressable
-              style={styles.button}
-              onPress={() => {
-                deleteBookmark(item);
-                getData();
-                console.log(item);
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <View>
+              <Text style={styles.item}>{item}</Text>
+              <Pressable
+                style={styles.button}
+                onPress={() => {
+                  deleteBookmark(item);
+                  getData();
+                  console.log(item);
+                }}>
+                <Text>Delete</Text>
+              </Pressable>
+            </View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(false);
               }}>
-              <Text>Delete</Text>
-            </Pressable>
-          </View>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Btest</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => {
+                    setModalVisible(false);
+                  }}>
+                  <Text style={styles.textStyle}>Close</Text>
+                </Pressable>
+              </View>
+            </Modal>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -109,5 +132,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffff',
     fontSize: 24,
     color: 'black',
+  },
+  modalView: {
+    margin: 10,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    color: 'black',
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
