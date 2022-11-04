@@ -15,11 +15,30 @@ import {
 } from 'react-native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
 
 const BookmarkScreen = ({route, navigation}) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [bookmarks, setBookmarks] = React.useState(null);
   const isFocused = useIsFocused();
+  const [foodItem, setFoodItem] = React.useState({
+    barcode: 'N/A',
+    nutritionalfacts: {
+      calories: 'N/A',
+      cholesterol: 'N/A',
+      dietaryfiber: 'N/A',
+      includesaddedsugars: 'N/A',
+      protein: 'N/A',
+      saturatedfat: 'N/A',
+      servingsize: 'N/A',
+      servingspercontainer: 'N/A',
+      sodium: 'N/A',
+      totalcarbs: 'N/A',
+      totalfat: 'N/A',
+      totalsugars: 'N/A',
+      transfat: 'N/A',
+    },
+  });
 
   const getData = async () => {
     try {
@@ -72,7 +91,26 @@ const BookmarkScreen = ({route, navigation}) => {
       <FlatList
         data={bookmarks}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(true);
+              console.log(item);
+              {
+                const userDocument = firestore()
+                  .collection('fooditems')
+                  .doc(item)
+                  .get()
+                  .then(querySnapshot => {
+                    console.log('fooditem: ', querySnapshot._data);
+                    if (querySnapshot._data) {
+                      setFoodItem({
+                        barcode: item,
+                        ...querySnapshot._data
+                      });
+                    }
+                  });
+              }
+            }}>
             <View>
               <Text style={styles.item}>{item}</Text>
               <Pressable
@@ -93,7 +131,74 @@ const BookmarkScreen = ({route, navigation}) => {
                 setModalVisible(false);
               }}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Btest</Text>
+                <Text style={styles.modalText}>Barcode: {foodItem.barcode}</Text>
+                <View>
+                  <Text style={styles.modalText}>
+                    About {foodItem.nutritionalfacts.servingspercontainer}{' '}
+                    servings per container
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Serving size : {foodItem.nutritionalfacts.servingsize}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Calories : {foodItem.nutritionalfacts.calories}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Total Fat : {foodItem.nutritionalfacts.totalfat}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Saturated Fat : {foodItem.nutritionalfacts.saturatedfat}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Trans Fat : {foodItem.nutritionalfacts.transfat}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Cholesterol : {foodItem.nutritionalfacts.cholesterol}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Sodium : {foodItem.nutritionalfacts.sodium}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Total Carbohydrate : {foodItem.nutritionalfacts.totalcarbs}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Dietary Fiber : {foodItem.nutritionalfacts.dietaryfiber}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Total Sugars : {foodItem.nutritionalfacts.totalsugars}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Includes {foodItem.nutritionalfacts.includesaddedsugars}{' '}
+                    Added Sugars{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Protein : {foodItem.nutritionalfacts.protein}{' '}
+                  </Text>
+                </View>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {
