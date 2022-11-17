@@ -16,6 +16,7 @@ const ScanScreen = ({navigation}) => {
   const [barcodeFound, setBarcodeFound] = React.useState(false);
   const [foodItem, setFoodItem] = React.useState({
     nutritionalfacts: {
+      fooditemname: 'N/A',
       calories: 'N/A',
       cholesterol: 'N/A',
       dietaryfiber: 'N/A',
@@ -29,6 +30,7 @@ const ScanScreen = ({navigation}) => {
       totalfat: 'N/A',
       totalsugars: 'N/A',
       transfat: 'N/A',
+      foodscore: 'N/A',
     },
   });
 
@@ -134,6 +136,11 @@ const ScanScreen = ({navigation}) => {
             <Text style={styles.modalText}>Barcode: {barcode}</Text>
             <View>
               <Text style={styles.modalText}>
+                {foodItem.nutritionalfacts.fooditemname}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.modalText}>
                 About {foodItem.nutritionalfacts.servingspercontainer} servings
                 per container
               </Text>
@@ -199,6 +206,11 @@ const ScanScreen = ({navigation}) => {
                 Protein : {foodItem.nutritionalfacts.protein}{' '}
               </Text>
             </View>
+            <View>
+              <Text style={styles.modalText}>
+                Food Score : {foodItem.nutritionalfacts.foodscore}{' '}
+              </Text>
+            </View>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={async () => {
@@ -215,6 +227,7 @@ const ScanScreen = ({navigation}) => {
                 setModalVisible(false);
                 setFoodItem({
                   nutritionalfacts: {
+                    fooditemname: 'N/A',
                     calories: 'N/A',
                     cholesterol: 'N/A',
                     dietaryfiber: 'N/A',
@@ -228,6 +241,7 @@ const ScanScreen = ({navigation}) => {
                     totalfat: 'N/A',
                     totalsugars: 'N/A',
                     transfat: 'N/A',
+                    foodscore: 'N/A',
                   },
                 });
                 barcodes = [];

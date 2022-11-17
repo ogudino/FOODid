@@ -24,6 +24,7 @@ const BookmarkScreen = ({route, navigation}) => {
   const [foodItem, setFoodItem] = React.useState({
     barcode: 'N/A',
     nutritionalfacts: {
+      fooditemname: 'N/A',
       calories: 'N/A',
       cholesterol: 'N/A',
       dietaryfiber: 'N/A',
@@ -37,6 +38,7 @@ const BookmarkScreen = ({route, navigation}) => {
       totalfat: 'N/A',
       totalsugars: 'N/A',
       transfat: 'N/A',
+      foodscore: 'N/A',
     },
   });
 
@@ -105,7 +107,7 @@ const BookmarkScreen = ({route, navigation}) => {
                     if (querySnapshot._data) {
                       setFoodItem({
                         barcode: item,
-                        ...querySnapshot._data
+                        ...querySnapshot._data,
                       });
                     }
                   });
@@ -131,7 +133,14 @@ const BookmarkScreen = ({route, navigation}) => {
                 setModalVisible(false);
               }}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Barcode: {foodItem.barcode}</Text>
+                <Text style={styles.modalText}>
+                  Barcode: {foodItem.barcode}
+                </Text>
+                <View>
+                  <Text style={styles.modalText}>
+                    {foodItem.nutritionalfacts.fooditemname}{' '}
+                  </Text>
+                </View>
                 <View>
                   <Text style={styles.modalText}>
                     About {foodItem.nutritionalfacts.servingspercontainer}{' '}
@@ -197,6 +206,11 @@ const BookmarkScreen = ({route, navigation}) => {
                 <View>
                   <Text style={styles.modalText}>
                     Protein : {foodItem.nutritionalfacts.protein}{' '}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.modalText}>
+                    Food Score : {foodItem.nutritionalfacts.foodscore}{' '}
                   </Text>
                 </View>
                 <Pressable
