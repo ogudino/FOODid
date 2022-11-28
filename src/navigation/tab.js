@@ -21,10 +21,11 @@ const CustomTabBarButton = ({children, onPress}) => (
     onPress={onPress}>
     <View
       style={{
+        elevation: 3,
         width: 70,
         height: 70,
         borderRadius: 35,
-        backgroundColor: '#e32f45',
+        backgroundColor: '#2f9c95',
       }}>
       {children}
     </View>
@@ -35,6 +36,14 @@ const Tabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
+        headerStyle: {
+          backgroundColor: '#16302b',
+          elevation: 0,
+          shadowColor: 'transparent',
+        },
+        headerTitleStyle: {
+          color: 'white',
+        },
         tabBarShowLabel: false,
         tabBarStyle: {
           position: 'absolute',
@@ -42,30 +51,30 @@ const Tabs = () => {
           left: 20,
           right: 20,
           elavation: 0,
-          backgroundColor: '#ffffff',
+          backgroundColor: '#F6F7EB',
           borderRadius: 15,
           height: 90,
           ...styles.shadow,
         },
       }}>
       <Tab.Screen
-        name="Home"
+        name="HOME"
         component={HomeScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <View
-              style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+              style={{alignItems: 'center', justifyContent: 'center', top: 5}}>
               <Image
                 source={require('../../assets/icons/home.png')}
                 resizeMode="contain"
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? '#e32f45' : '#748c94',
+                  tintColor: focused ? '#16302b' : '#748c94',
                 }}
               />
               <Text
-                style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12}}>
+                style={{color: focused ? '#16302b' : '#748c94', fontSize: 12}}>
                 HOME
               </Text>
             </View>
@@ -78,18 +87,18 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <View
-              style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+              style={{alignItems: 'center', justifyContent: 'center', top: 5}}>
               <Image
                 source={require('../../assets/icons/folder.png')}
                 resizeMode="contain"
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? '#e32f45' : '#748c94',
+                  tintColor: focused ? '#16302b' : '#748c94',
                 }}
               />
               <Text
-                style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12}}>
+                style={{color: focused ? '#16302b' : '#748c94', fontSize: 12}}>
                 NEW ITEM
               </Text>
             </View>
@@ -102,7 +111,7 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <Image
-              source={require('../../assets/icons/camera.png')}
+              source={require('../../assets/icons/barcode-scanner.png')}
               resizeMode="contain"
               style={{
                 width: 30,
@@ -120,18 +129,18 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <View
-              style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+              style={{alignItems: 'center', justifyContent: 'center', top: 5}}>
               <Image
                 source={require('../../assets/icons/book-bookmark.png')}
                 resizeMode="contain"
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? '#e32f45' : '#748c94',
+                  tintColor: focused ? '#16302b' : '#748c94',
                 }}
               />
               <Text
-                style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12}}>
+                style={{color: focused ? '#16302b' : '#748c94', fontSize: 12}}>
                 BOOKMARK
               </Text>
             </View>
@@ -144,18 +153,18 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <View
-              style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+              style={{alignItems: 'center', justifyContent: 'center', top: 5}}>
               <Image
                 source={require('../../assets/icons/settings.png')}
                 resizeMode="contain"
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? '#e32f45' : '#748c94',
+                  tintColor: focused ? '#16302b' : '#748c94',
                 }}
               />
               <Text
-                style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12}}>
+                style={{color: focused ? '#16302b' : '#748c94', fontSize: 12}}>
                 SETTINGS
               </Text>
             </View>
@@ -170,7 +179,7 @@ export default Tabs;
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: '#7F5DF0',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
       height: 10,
