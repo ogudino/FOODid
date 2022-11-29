@@ -38,9 +38,10 @@ const ScanScreen = ({navigation}) => {
   const device = devices.back;
   const isFocused = useIsFocused();
 
-  const storeData = async barcode => {
+  const storeData = async (barcode, name) => {
     try {
-      const value = await AsyncStorage.getItem('@bookmarks');
+      console.log("NAME: ", name)
+      const value = await AsyncStorage.getItem('@bookmarksv3');
 
       let bookmarks = JSON.parse(value);
 
@@ -49,15 +50,28 @@ const ScanScreen = ({navigation}) => {
       if (bookmarks) {
         if (!bookmarks.barcodes.includes(barcode)) {
           bookmarks.barcodes.push(barcode);
+          bookmarks.names.push(name);
+          bookmarks.foodItems.push({
+            barcode: barcode,
+            name: name
+          })
         }
       } else {
         bookmarks = {
           barcodes: [barcode],
+          names: [name],
+          foodItems: [
+            {
+              barcode: barcode,
+              name: name
+            }
+          ]
         };
       }
 
-      await AsyncStorage.setItem('@bookmarks', JSON.stringify(bookmarks));
+      await AsyncStorage.setItem('@bookmarksv3', JSON.stringify(bookmarks));
       console.log('storedata: ', barcode);
+      console.log('name: ', name);
     } catch (e) {
       console.log('error saving data', e);
     }
@@ -214,7 +228,7 @@ const ScanScreen = ({navigation}) => {
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={async () => {
-                await storeData(barcode);
+                await storeData(barcode, foodItem.nutritionalfacts.fooditemname);
                 setModalVisible(false);
                 setBarcodeFound(false);
                 barcodes = [];

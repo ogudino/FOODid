@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   TouchableHighlight,
+  Image,
 } from 'react-native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,8 +20,13 @@ import firestore from '@react-native-firebase/firestore';
 
 const BookmarkScreen = ({route, navigation}) => {
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [bookmarks, setBookmarks] = React.useState(null);
+  const [bookmarks, setBookmarks] = React.useState({
+    barcodes: [],
+    names: [],
+    foodItems: []
+  });
   const isFocused = useIsFocused();
+  const [foodItemName, setFoodItemName] = React.useState(null);
   const [foodItem, setFoodItem] = React.useState({
     barcode: 'N/A',
     nutritionalfacts: {
@@ -44,9 +50,18 @@ const BookmarkScreen = ({route, navigation}) => {
 
   const getData = async () => {
     try {
-      const value = await AsyncStorage.getItem('@bookmarks');
+      const value = await AsyncStorage.getItem('@bookmarksv3');
       if (value !== null) {
-        setBookmarks(JSON.parse(value).barcodes);
+        console.log("VALUE: ", value)
+        const marks = JSON.parse(value)
+        console.log("MARKS: ", marks)
+        setBookmarks({
+          barcodes: marks.barcodes,
+          names: marks.names,
+          foodItems: marks.foodItems
+        });
+
+        console.log("BOOKMARKS: ", bookmarks)
       }
     } catch (e) {
       console.log('error getData', e);
@@ -55,7 +70,7 @@ const BookmarkScreen = ({route, navigation}) => {
 
   const deleteBookmark = async barcode => {
     try {
-      const value = await AsyncStorage.getItem('@bookmarks');
+      const value = await AsyncStorage.getItem('@bookmarksv3');
       let savedBookmarks = JSON.parse(value);
       if (savedBookmarks) {
         if (savedBookmarks.barcodes) {
@@ -65,7 +80,7 @@ const BookmarkScreen = ({route, navigation}) => {
           });
           savedBookmarks.barcodes = result;
           await AsyncStorage.setItem(
-            '@bookmarks',
+            '@bookmarksv3',
             JSON.stringify(savedBookmarks),
           );
           setBookmarks(savedBookmarks.barcodes);
@@ -88,25 +103,39 @@ const BookmarkScreen = ({route, navigation}) => {
     })();
   }, [isFocused]);
 
+  // const userDocument = firestore()
+  // .collection('fooditems')
+  // .doc(item)
+  // .get()
+  // .then(querySnapshot => {
+  //   console.log('fooditem: ', querySnapshot._data);
+  //   if (querySnapshot._data) {
+  //     setFoodItem({
+  //       barcode: item,
+  //       ...querySnapshot._data,
+  //     });
+  //   }
+  // });
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={bookmarks}
-        renderItem={({item}) => (
+        data={bookmarks.barcodes}
+        renderItem={({item: barcode}) => (
           <TouchableOpacity
             onPress={() => {
               setModalVisible(true);
-              console.log(item);
+              console.log('this is item:',barcode);
               {
                 const userDocument = firestore()
                   .collection('fooditems')
-                  .doc(item)
+                  .doc(barcode)
                   .get()
                   .then(querySnapshot => {
                     console.log('fooditem: ', querySnapshot._data);
                     if (querySnapshot._data) {
                       setFoodItem({
-                        barcode: item,
+                        barcode: barcode,
                         ...querySnapshot._data,
                       });
                     }
@@ -114,15 +143,29 @@ const BookmarkScreen = ({route, navigation}) => {
               }
             }}>
             <View>
-              <Text style={styles.item}>{item}</Text>
+              <Text style={styles.item}>
+                {bookmarks.foodItems.find(foodItem => foodItem.barcode === barcode).name}
+              </Text>
               <Pressable
-                style={styles.button}
+                style={styles.deletebookmarkbutton}
                 onPress={() => {
-                  deleteBookmark(item);
+                  deleteBookmark(barcode);
                   getData();
-                  console.log(item);
+                  console.log('item: ' ,barcode);
                 }}>
-                <Text>Delete</Text>
+                {/* <Text>Delete</Text> */}
+                <Image
+              source={require('../../assets/icons/close.png')}
+              resizeMode="contain"
+              style={{
+                alignItems: 'center',
+                alignContent: 'center',
+                justifyContent: 'center',
+                width: 20,
+                height: 20,
+                tintColor: '#fff',
+              }}
+            />
               </Pressable>
             </View>
             <Modal
@@ -235,29 +278,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    backgroundColor: '#8fcbbc',
+    backgroundColor: '#16302B',
+  },
+  deletebookmarkbutton: {
+    alignSelf: 'flex-end',
+    marginRight: 30,
+    width: 40,
+    height: 40,
+    borderRadius: 35,
+    padding: 10,
+    elevation: 4,
+    backgroundColor: '#E04F5F',
+    top: -65,
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
     elevation: 2,
-    backgroundColor: '#2196F3',
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: '#16302B',
+    alignItems: 'center',
+    width: 150,
   },
   item: {
-    flex: 1,
+    // flex: 1,
     marginHorizontal: 10,
+    borderRadius:10,
     marginTop: 24,
     padding: 30,
-    backgroundColor: '#ffff',
-    fontSize: 24,
-    color: 'black',
+    backgroundColor: '#D9D9D9',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#2F9C95',
   },
   modalView: {
     margin: 10,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
+    // alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -270,6 +328,6 @@ const styles = StyleSheet.create({
   modalText: {
     color: 'black',
     marginBottom: 15,
-    textAlign: 'center',
+    alignItems: 'flex-start',
   },
 });
