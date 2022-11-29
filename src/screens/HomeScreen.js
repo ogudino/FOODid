@@ -15,17 +15,20 @@ import firestore from '@react-native-firebase/firestore';
 const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Image 
-      source={require('../../assets/icons/homescreenimg.jpg')}
-      // resizeMode="contain"
-      style={{
-        width: 215,
-        height: 215,
-        top: 125,
-      }}
+      <Image
+        source={require('../../assets/icons/homescreenimg.jpg')}
+        // resizeMode="contain"
+        style={{
+          width: 215,
+          height: 215,
+          top: 125,
+        }}
       />
-      <Text style={styles.baseText}>Welcome to FOODiD          </Text>
-      <Text style={styles.innerText}>Get all the nutrition facts for your favorite foods in a matter of seconds</Text>
+      <Text style={styles.baseText}>Welcome to FOODiD </Text>
+      <Text style={styles.innerText}>
+        Get all the nutrition facts for your favorite foods in a matter of
+        seconds
+      </Text>
     </View>
   );
 };
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginLeft: 30,
     marginRight: 30,
-  },  
+  },
   container: {
     flex: 1,
     alignItems: 'center',
