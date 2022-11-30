@@ -17,16 +17,20 @@ const NewItemScreen = ({route, navigation}) => {
   const [barcode, onChangeBarcode] = React.useState(null);
   const [barcodeTextError, setBarcodeTextError] = React.useState(false);
   const [caloriesTextError, setCaloriesTextError] = React.useState(false);
-  const [servingsPerContainerTextError, setServingsPerContainerTextError] = React.useState(false);
+  const [servingsPerContainerTextError, setServingsPerContainerTextError] =
+    React.useState(false);
   const [totalFatTextError, setTotalFatTextError] = React.useState(false);
-  const [saturatedFatTextError, setSaturatedFatTextError] = React.useState(false);
+  const [saturatedFatTextError, setSaturatedFatTextError] =
+    React.useState(false);
   const [transFatTextError, setTransFatTextError] = React.useState(false);
   const [cholesterolTextError, setCholesterolTextError] = React.useState(false);
   const [sodiumTextError, setSodiumTextError] = React.useState(false);
   const [totalCarbsTextError, setTotalCarbsTextError] = React.useState(false);
   const [dietaryFiberTextError, setDietaryTextError] = React.useState(false);
-  const [totalSugarsTextError, setTotalSugarsTextErrors] = React.useState(false);
-  const [includedSugarsTextError, setIncludedSugarsTextError] = React.useState(false);
+  const [totalSugarsTextError, setTotalSugarsTextErrors] =
+    React.useState(false);
+  const [includedSugarsTextError, setIncludedSugarsTextError] =
+    React.useState(false);
   const [proteinTextError, setProteinTextError] = React.useState(false);
 
   const [foodItem, setFoodItem] = React.useState({
