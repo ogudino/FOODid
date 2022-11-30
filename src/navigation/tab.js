@@ -70,11 +70,11 @@ const Tabs = () => {
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? '#16302b' : '#748c94',
+                  tintColor: focused ? '#E04F5F' : '#748c94',
                 }}
               />
               <Text
-                style={{color: focused ? '#16302b' : '#748c94', fontSize: 12}}>
+                style={{color: focused ? '#E04F5F' : '#748c94', fontSize: 12}}>
                 HOME
               </Text>
             </View>
@@ -82,7 +82,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="New Item"
+        name="NEW ITEM"
         component={NewItemScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -94,11 +94,11 @@ const Tabs = () => {
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? '#16302b' : '#748c94',
+                  tintColor: focused ? '#E04F5F' : '#748c94',
                 }}
               />
               <Text
-                style={{color: focused ? '#16302b' : '#748c94', fontSize: 12}}>
+                style={{color: focused ? '#E04F5F' : '#748c94', fontSize: 12}}>
                 NEW ITEM
               </Text>
             </View>
@@ -106,7 +106,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Scan"
+        name="SCAN"
         component={ScanScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -124,7 +124,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Bookmarks"
+        name="BOOKMARKS"
         component={BookmarkScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -136,11 +136,11 @@ const Tabs = () => {
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? '#16302b' : '#748c94',
+                  tintColor: focused ? '#E04F5F' : '#748c94',
                 }}
               />
               <Text
-                style={{color: focused ? '#16302b' : '#748c94', fontSize: 12}}>
+                style={{color: focused ? '#E04F5F' : '#748c94', fontSize: 12}}>
                 BOOKMARK
               </Text>
             </View>
@@ -148,7 +148,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Settings"
+        name="SETTINGS"
         component={SettingsScreen}
         options={{
           tabBarIcon: ({focused}) => (
@@ -160,11 +160,11 @@ const Tabs = () => {
                 style={{
                   width: 25,
                   height: 25,
-                  tintColor: focused ? '#16302b' : '#748c94',
+                  tintColor: focused ? '#E04F5F' : '#748c94',
                 }}
               />
               <Text
-                style={{color: focused ? '#16302b' : '#748c94', fontSize: 12}}>
+                style={{color: focused ? '#E04F5F' : '#748c94', fontSize: 12}}>
                 SETTINGS
               </Text>
             </View>

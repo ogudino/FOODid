@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, Text, View, Modal, Alert} from 'react-native';
+import {StyleSheet, Text, View, Modal, Image} from 'react-native';
 import {useCameraDevices} from 'react-native-vision-camera';
 import {Camera} from 'react-native-vision-camera';
 import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
@@ -113,30 +113,67 @@ const ScanScreen = ({navigation}) => {
             setModalNewItemVisible(false);
           }}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Barcode not recognized: {barcode}
+            <View>
+              <Image
+                source={require('../../assets/icons/error.png')}
+                // resizeMode="contain"
+                style={{
+                  margin: 10,
+                  marginBottom: 20,
+                  alignSelf: 'center',
+                  width: 80,
+                  height: 80,
+                }}
+              />
+            </View>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                color: 'black',
+                alignSelf: 'center',
+              }}>
+              Error!
             </Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => {
-                navigation.navigate('New Item', {
-                  params: {barcodeId: barcode},
-                });
-                setModalNewItemVisible(false);
+            <Text style={{color: 'black', alignSelf: 'center', margin: 5}}>
+              Barcode not recognized:
+            </Text>
+            <Text
+              style={{
+                color: 'black',
+                alignSelf: 'center',
+                margin: 5,
+                marginBottom: 20,
+              }}>
+              {barcode}
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+              <Pressable
+                style={[styles.button, {backgroundColor: '#E04F5F'}]}
+                onPress={() => {
+                  navigation.navigate('NEW ITEM', {
+                    params: {barcodeId: barcode},
+                  });
+                  setModalNewItemVisible(false);
 
-                barcodes = [];
-              }}>
-              <Text style={styles.textStyle}>Add New Item</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => {
-                setModalNewItemVisible(false);
-                setBarcodeFound(false);
-                barcodes = [];
-              }}>
-              <Text style={styles.textStyle}>Try Again</Text>
-            </Pressable>
+                  barcodes = [];
+                }}>
+                <Text style={{color: 'white', alignSelf: 'center'}}>
+                  Add New Item
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[styles.buttonClose, {backgroundColor: '#E04F5F'}]}
+                onPress={() => {
+                  setModalNewItemVisible(false);
+                  setBarcodeFound(false);
+                  barcodes = [];
+                }}>
+                <Text style={{color: 'white', alignSelf: 'center'}}>
+                  Try Again
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </Modal>
         <Modal
@@ -146,210 +183,205 @@ const ScanScreen = ({navigation}) => {
           onRequestClose={() => {
             setModalVisible(false);
           }}>
-              <View style={styles.modalView}>
-                <Text
-                  style={[
-                    styles.modalText,
-                    {textAlign: 'center', marginBottom: 10},
-                  ]}>
-                  Barcode: {barcode}
+          <View style={styles.modalView}>
+            <Text
+              style={[
+                styles.modalText,
+                {textAlign: 'center', marginBottom: 10},
+              ]}>
+              Barcode: {barcode}
+            </Text>
+            <View>
+              <Text style={styles.modalBoldText}>
+                {foodItem.nutritionalfacts.fooditemname}{' '}
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                }}>
+                Nutrition Facts
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.modalText}>
+                About {foodItem.nutritionalfacts.servingspercontainer} servings
+                per container
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                borderBottomColor: 'black',
+                borderBottomWidth: 5,
+              }}>
+              <Text
+                style={[
+                  styles.modalSmallBoldText,
+                  {flex: 1, textAlign: 'left'},
+                ]}>
+                Serving size
+              </Text>
+              <Text
+                style={[
+                  styles.modalSmallBoldText,
+                  {flex: 1, textAlign: 'right'},
+                ]}>
+                {foodItem.nutritionalfacts.servingsize}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: 'left',
+                  color: 'black',
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                }}>
+                Calories
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: 'right',
+                  color: 'black',
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                }}>
+                {foodItem.nutritionalfacts.calories}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.modalSmallBoldText}>Total Fat</Text>
+              <Text style={styles.modalFactText}>
+                {' '}
+                {foodItem.nutritionalfacts.totalfat}
+                {'g'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.modalText}>
+                {'    '}Saturated Fat {foodItem.nutritionalfacts.saturatedfat}
+                {'g '}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.modalText}>
+                {'    '}Trans Fat {foodItem.nutritionalfacts.transfat}
+                {'g '}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.modalSmallBoldText}>Cholesterol</Text>
+              <Text style={styles.modalFactText}>
+                {' '}
+                {foodItem.nutritionalfacts.cholesterol}
+                {'mg '}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.modalSmallBoldText}>Sodium</Text>
+              <Text style={styles.modalFactText}>
+                {' '}
+                {foodItem.nutritionalfacts.sodium}
+                {'mg '}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.modalSmallBoldText}>Total Carbohydrate</Text>
+              <Text style={styles.modalFactText}>
+                {' '}
+                {foodItem.nutritionalfacts.totalcarbs}
+                {'g '}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.modalText}>
+                {'    '}Dietary Fiber {foodItem.nutritionalfacts.dietaryfiber}
+                {'g '}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.modalText}>
+                {'    '}Total Sugars {foodItem.nutritionalfacts.totalsugars}
+                {'g '}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.modalText}>
+                {'         '}Includes{' '}
+                {foodItem.nutritionalfacts.includesaddedsugars}
+                {'g '}
+                Added Sugars{' '}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.modalSmallBoldText}>Protein</Text>
+              <Text style={styles.modalFactText}>
+                {' '}
+                {foodItem.nutritionalfacts.protein}
+                {'g '}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
+              <Text
+                style={[styles.modalBoldText, {flex: 1, textAlign: 'left'}]}>
+                Food Score
+              </Text>
+              <Text
+                style={[
+                  styles.modalBoldText,
+                  {flex: 1, textAlign: 'right', fontSize: 30},
+                ]}>
+                {foodItem.nutritionalfacts.foodscore}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Pressable
+                style={styles.button}
+                onPress={async () => {
+                  await storeData(
+                    barcode,
+                    foodItem.nutritionalfacts.fooditemname,
+                  );
+                  setModalVisible(false);
+                  setBarcodeFound(false);
+                  barcodes = [];
+                }}>
+                <Text style={{color: 'white', alignSelf: 'center'}}>
+                  Bookmark
                 </Text>
-                <View>
-                  <Text style={styles.modalBoldText}>
-                    {foodItem.nutritionalfacts.fooditemname}{' '}
-                  </Text>
-                  <Text
-                    style={{
-                      color: 'black',
-                      fontSize: 24,
-                      fontWeight: 'bold',
-                    }}>
-                    Nutrition Facts
-                  </Text>
-                </View>
-                <View>
-                  <Text style={styles.modalText}>
-                    About {foodItem.nutritionalfacts.servingspercontainer}{' '}
-                    servings per container
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    borderBottomColor: 'black',
-                    borderBottomWidth: 5,
-                  }}>
-                  <Text
-                    style={[
-                      styles.modalSmallBoldText,
-                      {flex: 1, textAlign: 'left'},
-                    ]}>
-                    Serving size
-                  </Text>
-                  <Text
-                    style={[
-                      styles.modalSmallBoldText,
-                      {flex: 1, textAlign: 'right'},
-                    ]}>
-                    {foodItem.nutritionalfacts.servingsize}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Text
-                    style={{
-                      flex: 1,
-                      textAlign: 'left',
-                      color: 'black',
-                      fontSize: 24,
-                      fontWeight: 'bold',
-                    }}>
-                    Calories
-                  </Text>
-                  <Text
-                    style={{
-                      flex: 1,
-                      textAlign: 'right',
-                      color: 'black',
-                      fontSize: 24,
-                      fontWeight: 'bold',
-                    }}>
-                    {foodItem.nutritionalfacts.calories}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.modalSmallBoldText}>Total Fat</Text>
-                  <Text style={styles.modalFactText}>
-                    {' '}
-                    {foodItem.nutritionalfacts.totalfat}
-                    {'g'}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={styles.modalText}>
-                    {'    '}Saturated Fat{' '}
-                    {foodItem.nutritionalfacts.saturatedfat}
-                    {'g '}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={styles.modalText}>
-                    {'    '}Trans Fat {foodItem.nutritionalfacts.transfat}
-                    {'g '}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.modalSmallBoldText}>Cholesterol</Text>
-                  <Text style={styles.modalFactText}>
-                    {' '}
-                    {foodItem.nutritionalfacts.cholesterol}
-                    {'mg '}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.modalSmallBoldText}>Sodium</Text>
-                  <Text style={styles.modalFactText}>
-                    {' '}
-                    {foodItem.nutritionalfacts.sodium}
-                    {'mg '}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.modalSmallBoldText}>
-                    Total Carbohydrate
-                  </Text>
-                  <Text style={styles.modalFactText}>
-                    {' '}
-                    {foodItem.nutritionalfacts.totalcarbs}
-                    {'g '}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={styles.modalText}>
-                    {'    '}Dietary Fiber{' '}
-                    {foodItem.nutritionalfacts.dietaryfiber}
-                    {'g '}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={styles.modalText}>
-                    {'    '}Total Sugars {foodItem.nutritionalfacts.totalsugars}
-                    {'g '}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={styles.modalText}>
-                    {'         '}Includes{' '}
-                    {foodItem.nutritionalfacts.includesaddedsugars}
-                    {'g '}
-                    Added Sugars{' '}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.modalSmallBoldText}>Protein</Text>
-                  <Text style={styles.modalFactText}>
-                    {' '}
-                    {foodItem.nutritionalfacts.protein}
-                    {'g '}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 10}}>
-                  <Text
-                    style={[
-                      styles.modalBoldText,
-                      {flex: 1, textAlign: 'left'},
-                    ]}>
-                    Food Score
-                  </Text>
-                  <Text
-                    style={[
-                      styles.modalBoldText,
-                      {flex: 1, textAlign: 'right', fontSize: 30},
-                    ]}>
-                    {foodItem.nutritionalfacts.foodscore}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-            <Pressable
-              style={styles.button}
-              onPress={async () => {
-                await storeData(
-                  barcode,
-                  foodItem.nutritionalfacts.fooditemname,
-                );
-                setModalVisible(false);
-                setBarcodeFound(false);
-                barcodes = [];
-              }}>
-              <Text style={{color: 'white', alignSelf: 'center'}}>Bookmark</Text>
-            </Pressable>
-            <Pressable
-              style={styles.buttonClose}
-              onPress={() => {
-                setModalVisible(false);
-                setFoodItem({
-                  nutritionalfacts: {
-                    fooditemname: 'N/A',
-                    calories: 'N/A',
-                    cholesterol: 'N/A',
-                    dietaryfiber: 'N/A',
-                    includesaddedsugars: 'N/A',
-                    protein: 'N/A',
-                    saturatedfat: 'N/A',
-                    servingsize: 'N/A',
-                    servingspercontainer: 'N/A',
-                    sodium: 'N/A',
-                    totalcarbs: 'N/A',
-                    totalfat: 'N/A',
-                    totalsugars: 'N/A',
-                    transfat: 'N/A',
-                    foodscore: 'N/A',
-                  },
-                });
-                barcodes = [];
-                setBarcodeFound(false);
-              }}>
-              <Text style={{color: 'white', alignSelf: 'center'}}>Close</Text>
-            </Pressable>
+              </Pressable>
+              <Pressable
+                style={styles.buttonClose}
+                onPress={() => {
+                  setModalVisible(false);
+                  setFoodItem({
+                    nutritionalfacts: {
+                      fooditemname: 'N/A',
+                      calories: 'N/A',
+                      cholesterol: 'N/A',
+                      dietaryfiber: 'N/A',
+                      includesaddedsugars: 'N/A',
+                      protein: 'N/A',
+                      saturatedfat: 'N/A',
+                      servingsize: 'N/A',
+                      servingspercontainer: 'N/A',
+                      sodium: 'N/A',
+                      totalcarbs: 'N/A',
+                      totalfat: 'N/A',
+                      totalsugars: 'N/A',
+                      transfat: 'N/A',
+                      foodscore: 'N/A',
+                    },
+                  });
+                  barcodes = [];
+                  setBarcodeFound(false);
+                }}>
+                <Text style={{color: 'white', alignSelf: 'center'}}>Close</Text>
+              </Pressable>
             </View>
           </View>
         </Modal>
