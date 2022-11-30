@@ -52,16 +52,16 @@ const BookmarkScreen = ({route, navigation}) => {
     try {
       const value = await AsyncStorage.getItem('@bookmarksv3');
       if (value !== null) {
-        console.log('VALUE: ', value);
+        // console.log('VALUE: ', value);
         const marks = JSON.parse(value);
-        console.log('MARKS: ', marks);
+        // console.log('\n\nMARKS: ', marks);
         setBookmarks({
           barcodes: marks.barcodes,
-          names: marks.names,
+          // names: marks.names,
           foodItems: marks.foodItems,
         });
 
-        console.log('BOOKMARKS: ', bookmarks);
+        // console.log('\n\nBOOKMARKS: ', bookmarks);
       }
     } catch (e) {
       console.log('error getData', e);
@@ -75,17 +75,33 @@ const BookmarkScreen = ({route, navigation}) => {
       if (savedBookmarks) {
         if (savedBookmarks.barcodes) {
           const result = savedBookmarks.barcodes.filter(code => {
-            console.log('code: ', code);
+            console.log('barcode: ', code);
             return barcode != code;
           });
           savedBookmarks.barcodes = result;
+        }
+
+        if (savedBookmarks.foodItems) {
+          const result = savedBookmarks.foodItems.filter(food => {
+            console.log('fooditem: ', food);
+            return barcode != food.barcode;
+          });
+          savedBookmarks.foodItems = result;
+        }
+
+        console.log("\n\nSavedBookmarks: ", savedBookmarks)
           await AsyncStorage.setItem(
             '@bookmarksv3',
             JSON.stringify(savedBookmarks),
           );
-          setBookmarks(savedBookmarks.barcodes);
+          // setBookmarks(savedBookmarks.barcodes);
+          // setBookmarks(savedBookmarks.foodItems)
+          setBookmarks({
+            barcodes: savedBookmarks.barcodes,
+            foodItems: savedBookmarks.foodItems
+          })
         }
-      }
+        
     } catch (e) {
       console.log(e);
     }
@@ -140,8 +156,8 @@ const BookmarkScreen = ({route, navigation}) => {
                 style={styles.deletebookmarkbutton}
                 onPress={() => {
                   deleteBookmark(barcode);
-                  getData();
-                  console.log('item: ', barcode);
+                  // getData();
+                  // console.log('item: ', barcode);
                 }}>
                 {/* <Text>Delete</Text> */}
                 <Image

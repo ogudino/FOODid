@@ -50,7 +50,7 @@ const ScanScreen = ({navigation}) => {
       if (bookmarks) {
         if (!bookmarks.barcodes.includes(barcode)) {
           bookmarks.barcodes.push(barcode);
-          bookmarks.names.push(name);
+          // bookmarks.names.push(name);
           bookmarks.foodItems.push({
             barcode: barcode,
             name: name,
@@ -59,7 +59,7 @@ const ScanScreen = ({navigation}) => {
       } else {
         bookmarks = {
           barcodes: [barcode],
-          names: [name],
+          // names: [name],
           foodItems: [
             {
               barcode: barcode,
