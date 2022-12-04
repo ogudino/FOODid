@@ -7,6 +7,7 @@ import {useIsFocused} from '@react-navigation/native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Rect } from 'react-native-svg';
 
 const ScanScreen = ({navigation}) => {
   const [hasPermission, setHasPermission] = React.useState(false);
@@ -77,8 +78,45 @@ const ScanScreen = ({navigation}) => {
     }
   };
 
+//   <Rect 
+//   x={0.1*getFrameSize()[0]}
+//   y={0.2*getFrameSize()[1]}
+//   width={0.8*getFrameSize()[0]}
+//   height={0.45*getFrameSize()[1]}
+//   strokeWidth="2"
+//   stroke="red"
+// />
+
+// const frameProcessor = useFrameProcessor((frame) => {
+//   config.template="{\"ImageParameter\":{\"BarcodeFormatIds\":[\"BF_QR_CODE\"],\"Description\":\"\",\"Name\":\"Settings\"},\"Version\":\"3.0\"}"; //scan qrcode only
+//   let settings;
+//   if (config.template){
+//     settings = JSON.parse(config.template);
+//   }else{
+//     const template = 
+//     `{
+//       "ImageParameter": {
+//         "Name": "Settings"
+//       },
+//       "Version": "3.0"
+//     }`;
+//     settings = JSON.parse(template);
+//   }
+//   settings["ImageParameter"]["RegionDefinitionNameArray"] = ["Settings"];
+//   settings["RegionDefinition"] = {
+//                                   "Left": 10,
+//                                   "Right": 90,
+//                                   "Top": 20,
+//                                   "Bottom": 65,
+//                                   "MeasuredByPercentage": 1,
+//                                   "Name": "Settings",
+//                                 };
+//   config.template = JSON.stringify(settings);
+// }
+
   var [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.UPC_A], {
     checkInverted: true,
+    
   });
 
   React.useEffect(() => {
@@ -99,7 +137,7 @@ const ScanScreen = ({navigation}) => {
     hasPermission && (
       <>
         <Camera
-          style={StyleSheet.absoluteFill}
+          style={styles.camera}
           device={device}
           isActive={isFocused}
           frameProcessor={frameProcessor}
@@ -446,6 +484,21 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 15,
     elevation: 2,
+  },
+  camera : {
+    flex: 1,
+    // position: 'absolute',
+    // height: 100,
+    // width: 130,
+    // margin: 100,
+    // marginHorizontal: 50,
+    // marginVertical: 200,
+
+    // transparent: true
+    // marginRight: 100,
+    // padding: 180,
+    // borderWidth: 20,
+    // borderColor: 'black',
   },
   buttonClose: {
     flex: 1,

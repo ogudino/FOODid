@@ -1,133 +1,128 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, FlatList, SafeAreaView, TouchableOpacity, Modal, Pressable, Switch} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  TouchableOpacity,
+  Pressable,
+  Switch,
+  Modal
+} from 'react-native';
+// import { Modal } from 'react-native-paper';
 
-import languageIcon from '../../assets/icons/internet.png'
-import moonIcon from '../../assets/icons/moon.png'
-import termIcon from '../../assets/icons/valid.png'
-import aboutIcon from '../../assets/icons/about.png'
+import languageIcon from '../../assets/icons/internet.png';
+import moonIcon from '../../assets/icons/moon.png';
+import termIcon from '../../assets/icons/valid.png';
+import aboutIcon from '../../assets/icons/about.png';
+// import tos from '../../assets/tos.txt'
 // import { Switch } from 'react-native-paper';
 
 const PREFERENCES = [
   {
     id: 1,
-    title: "Language",
-    icon:  languageIcon,
-    isEnabled: true
-    
-
+    title: 'Language',
+    icon: languageIcon,
+    isEnabled: true,
+    description: null,
   },
   {
     id: 2,
-    title: "Dark Mode",
+    title: 'Dark Mode',
     icon: moonIcon,
-    isEnabled: false
-  }
+    isEnabled: false,
+    description: null,
+  },
 ];
 
 const GENERAL = [
   {
     id: 3,
-    title: "Terms of Service",
-    icon:  termIcon,
-    isEnabled: true
-
-
+    title: 'Terms of Service',
+    icon: termIcon,
+    isEnabled: true,
+    description: 'tos',
   },
   {
     id: 4,
-    title: "About",
-    icon:  aboutIcon,
-    isEnabled: true
-
-
-  }
-]
+    title: 'About',
+    icon: aboutIcon,
+    isEnabled: true,
+    description:
+      'FOODiD is an android application where users can find, scan, and bookmark UPC_A based barcodes for their favorite foods. It was designed, developed, and created by Omar Gudino for his WSU Senior Project. Hope you enjoy!',
+  },
+];
 
 
 const SettingsScreen = ({navigation}) => {
   const [selectedId, setSelectedId] = React.useState(null);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [darkModeIsEnabled, setDarkModeIsEnabled] = React.useState(false);
+  const [value, setValue] = React.useState('');
 
-  const toggleSwitch = () => setDarkModeIsEnabled(previousState => !previousState);
-  const renderItem = ({ item }) => {
+  const toggleSwitch = () =>
+    setDarkModeIsEnabled(previousState => !previousState);
+  const renderItem = ({item}) => {
     // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
     // const color = item.id === selectedId ? 'white' : 'black';
 
-    const Item = ({ item }) => (
+    const Item = ({item}) => (
       <TouchableOpacity
-      disabled={!item.isEnabled}
-      onPress={() => {
-        setModalVisible(true)
-        // console.log('this is item:', item.id);
-      }}>
+        disabled={!item.isEnabled}
+        onPress={() => {
+          setModalVisible(true);
+          setValue(item.description);
+          // console.log('this is item:', item.id);
+        }}>
         <View style={{flexDirection: 'row'}}>
-          <Image style={styles.icon}source={item.icon}/>
-          <Text
-                    style={[
-                      styles.item,
-                      {paddingLeft: 50},
-                    ]}>
-                    {item.title}
-                  </Text>
-                  {
-                    !item.isEnabled ? (
-                      <Switch 
-                      style={styles.darkModeSwitch}
-                      value={darkModeIsEnabled}
-                      trackColor={{ false: "#767577", true: "#f4f3f4" }}
-                      thumbColor={darkModeIsEnabled ? "#767577" : "#f4f3f4"}
-              
-                      onChange={toggleSwitch}/>
-                    ) : null
-                  }
-                  </View>
-                <Modal
-                  // style={styles.modalView}
-                  animationType="none"
-                  transparent={true}
-                  visible={modalVisible}
-                  onRequestClose={() => {
-                    setModalVisible(false);
-                  }}
-                  >
-                    <View style={styles.modalView}>
-                      <Text>Hello</Text>
-                      <Pressable
-                  style={[styles.button]}
-                  onPress={() => {
-                    setModalVisible(false);
-                  }}>
-                  <Text style={{color: 'white', alignSelf: 'center'}}>
-                    Close
-                  </Text>
-                </Pressable>
-                    </View>
-                </Modal>
-              </TouchableOpacity>
+          <Image style={styles.icon} source={item.icon} />
+          <Text style={[styles.item, {paddingLeft: 50}]}>{item.title}</Text>
+          {!item.isEnabled ? (
+            <Switch
+              style={styles.darkModeSwitch}
+              value={darkModeIsEnabled}
+              trackColor={{false: '#767577', true: '#f4f3f4'}}
+              thumbColor={darkModeIsEnabled ? '#767577' : '#f4f3f4'}
+              onChange={toggleSwitch}/>
+          ) : null}
+        </View>
+        <Modal
+          // style={styles.modalView}
+          // {
+          //   !item.modal ? (
+
+          //   ) : null
+          // }
+          animationType="none"
+          transparent={true}
+          
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(false);
+          }}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{value}</Text>
+            <Pressable
+              style={[styles.button]}
+              onPress={() => {
+                setModalVisible(false);
+                setValue('');
+              }}>
+              <Text style={{color: 'white', alignSelf: 'center'}}>Close</Text>
+            </Pressable>
+          </View>
+        </Modal>
+      </TouchableOpacity>
     );
-    
-    // const PreferencesItem = ({ item, onPress}) => (
-
-    //     <View style={{flexDirection: 'row'}}>
-    //       <Image style={styles.icon}source={item.icon}/>
-    //       <Text
-    //                 style={[
-    //                   styles.item,
-    //                   {paddingLeft: 50}
-    //                 ]}>
-    //                 {item.title}
-    //               </Text>
-    //               </View>
-    // );
-
 
     return (
       <Item
         item={item}
         // onPress={() => setSelectedId(item.id)}
-        backgroundColor='white'
-        textColor='black'
+        backgroundColor="white"
+        textColor="black"
 
       />
     );
@@ -135,26 +130,27 @@ const SettingsScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={[styles.text , {marginTop: 20}]}>PREFERENCES</Text>
+      <Text style={[styles.text, {marginTop: 20}]}>PREFERENCES</Text>
       <View>
-      <FlatList
-        data={PREFERENCES}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        extraData={selectedId}
-        // Pressable={false}
-      />
+        <FlatList
+          data={PREFERENCES}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          extraData={selectedId}
+        />
       </View>
       <Text style={styles.text}>GENERAL</Text>
       <View>
-      <FlatList
-        data={GENERAL}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        extraData={selectedId}
-      />
+        <FlatList
+          data={GENERAL}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          extraData={selectedId}
+        />
       </View>
-      <Text style={[styles.bottomText, {marginTop: 100}]}>You are use FOODiD app</Text>
+      <Text style={[styles.bottomText, {marginTop: 100}]}>
+        You are use FOODiD app
+      </Text>
       <Text style={[styles.bottomText, {}]}>version 0.0.1</Text>
     </SafeAreaView>
   );
@@ -202,7 +198,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     tintColor: '#969696',
     zIndex: 1,
-    
   },
   bottomText: {
     justifyContent: 'flex-end',
@@ -211,9 +206,10 @@ const styles = StyleSheet.create({
     // minHeight: 200
   },
   modalView: {
-    margin: 10,
-    backgroundColor: 'white',
-    borderRadius: 20,
+    margin: 40,
+    marginTop: 225,
+    backgroundColor: '#D9D9D9',
+    borderRadius: 10,
     padding: 35,
     // alignItems: 'center',
     shadowColor: '#000',
@@ -224,11 +220,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    // backgroundColor: 'rgba(0,0,0,0.7)'
   },
   modalText: {
     color: 'black',
     marginBottom: 5,
-    alignItems: 'flex-start',
+    // alignSelf: 'center',
+    textAlign: 'center',
+    margin: 10,
+    // alignItems: 'flex-start',
+
   },
   button: {
     elevation: 2,
@@ -237,12 +238,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#2F9C95',
     alignSelf: 'center',
     width: 150,
+    marginTop: 20,
   },
   darkModeSwitch: {
     alignSelf: 'center',
     // marginTop: 28,
     marginLeft: 320,
-    transform: [{ scaleX: 1.3}, {scaleY: 1.3}],
+    transform: [{scaleX: 1.3}, {scaleY: 1.3}],
     // tintColor: '#000',
     // width: 30,
     // height: 30,
@@ -252,5 +254,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     // tintColor: '#969696',
     zIndex: 2,
-  }
+  },
 });
