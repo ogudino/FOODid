@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   View,
   Text,
@@ -250,6 +250,21 @@ const NewItemScreen = ({route, navigation}) => {
     );
   };
 
+  const fooditemnameRef = useRef();
+  const caloriesRef = useRef();
+  const servingspercontainerRef = useRef();
+  const servingsizeRef = useRef();
+  const totalfatRef = useRef();
+  const saturatedfatRef = useRef();
+  const transfatRef = useRef();
+  const cholesterolRef = useRef();
+  const sodiumRef = useRef();
+  const totalcarbsRef = useRef();
+  const dietaryfiberRef = useRef();
+  const totalsugarsRef = useRef();
+  const includesaddedsugarsRef = useRef();
+  const proteinRef = useRef();
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -262,6 +277,9 @@ const NewItemScreen = ({route, navigation}) => {
           mode="flat"
           textColor="#1E1E1E"
           theme={styles.textInputOutlineStyle}
+          returnKeyType="next"
+          onSubmitEditing={() => fooditemnameRef.current.focus()}
+        //   blurOnSubmit={false}
         />
         <HelperText
           type="error"
@@ -284,6 +302,10 @@ const NewItemScreen = ({route, navigation}) => {
           mode="flat"
           textColor="#1E1E1E"
           theme={styles.textInputOutlineStyle}
+          ref={fooditemnameRef}
+          returnKeyType="next"
+          onSubmitEditing={() => caloriesRef.current.focus()}
+          blurOnSubmit={false}
         />
 
         <View style={{flex: 1, flexDirection: 'row'}}>
@@ -308,6 +330,11 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={caloriesRef}
+              returnKeyType="next"
+          onSubmitEditing={() => servingspercontainerRef.current.focus()}
+          blurOnSubmit={false}
+
             />
             <HelperText
               type="error"
@@ -337,6 +364,11 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={servingspercontainerRef}
+              returnKeyType="next"
+          onSubmitEditing={() => servingsizeRef.current.focus()}
+          blurOnSubmit={false}
+
             />
             <HelperText
               type="error"
@@ -361,6 +393,11 @@ const NewItemScreen = ({route, navigation}) => {
             mode="flat"
             textColor="#1E1E1E"
             theme={styles.textInputOutlineStyle}
+            ref={servingsizeRef}
+            returnKeyType="next"
+        onSubmitEditing={() => totalfatRef.current.focus()}
+        blurOnSubmit={false}
+
           />
 
           {/* <HelperText
@@ -402,6 +439,11 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={totalfatRef}
+              returnKeyType="next"
+          onSubmitEditing={() => saturatedfatRef.current.focus()}
+          blurOnSubmit={false}
+
             />
             <HelperText
               type="error"
@@ -430,6 +472,11 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={saturatedfatRef}
+              returnKeyType="next"
+          onSubmitEditing={() => transfatRef.current.focus()}
+          blurOnSubmit={false}
+
             />
             <HelperText
               type="error"
@@ -460,6 +507,11 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={transfatRef}
+              returnKeyType="next"
+          onSubmitEditing={() => cholesterolRef.current.focus()}
+          blurOnSubmit={false}
+
             />
 
             <HelperText
@@ -489,6 +541,10 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={cholesterolRef}
+              returnKeyType="next"
+          onSubmitEditing={() => sodiumRef.current.focus()}
+          blurOnSubmit={false}
             />
             <HelperText
               type="error"
@@ -519,6 +575,10 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={sodiumRef}
+              returnKeyType="next"
+          onSubmitEditing={() => totalcarbsRef.current.focus()}
+          blurOnSubmit={false}
             />
             <HelperText
               type="error"
@@ -547,6 +607,10 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={totalcarbsRef}
+              returnKeyType="next"
+          onSubmitEditing={() => dietaryfiberRef.current.focus()}
+          blurOnSubmit={false}
             />
             <HelperText
               type="error"
@@ -577,6 +641,10 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={dietaryfiberRef}
+              returnKeyType="next"
+          onSubmitEditing={() => totalsugarsRef.current.focus()}
+          blurOnSubmit={false}
             />
             <HelperText
               type="error"
@@ -605,6 +673,10 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={totalsugarsRef}
+              returnKeyType="next"
+          onSubmitEditing={() => includesaddedsugarsRef.current.focus()}
+          blurOnSubmit={false}
             />
             <HelperText
               type="error"
@@ -635,6 +707,10 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={includesaddedsugarsRef}
+              returnKeyType="next"
+          onSubmitEditing={() => proteinRef.current.focus()}
+          blurOnSubmit={false}
             />
             <HelperText
               type="error"
@@ -663,6 +739,10 @@ const NewItemScreen = ({route, navigation}) => {
               mode="flat"
               textColor="#1E1E1E"
               theme={styles.textInputOutlineStyle}
+              ref={proteinRef}
+        //       returnKeyType="next"
+        //   onSubmitEditing={() => cholesterolRef.current.focus()}
+        //   blurOnSubmit={false}
             />
             <HelperText
               type="error"

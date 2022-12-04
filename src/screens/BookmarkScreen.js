@@ -17,6 +17,8 @@ import {
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
+import { ActivityIndicator } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BookmarkScreen = ({route, navigation}) => {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -27,6 +29,7 @@ const BookmarkScreen = ({route, navigation}) => {
   });
   const isFocused = useIsFocused();
   const [foodItemName, setFoodItemName] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false)
   const [foodItem, setFoodItem] = React.useState({
     barcode: 'N/A',
     nutritionalfacts: {
@@ -120,8 +123,10 @@ const BookmarkScreen = ({route, navigation}) => {
   }, [isFocused]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View>
       <FlatList
+      // style={{marginB}}
         data={bookmarks.barcodes}
         renderItem={({item: barcode}) => (
           <TouchableOpacity
@@ -161,26 +166,28 @@ const BookmarkScreen = ({route, navigation}) => {
                 }}>
                 {/* <Text>Delete</Text> */}
                 <Image
-                  source={require('../../assets/icons/close.png')}
+                  source={require('../../assets/icons/delete.png')}
                   resizeMode="contain"
                   style={{
-                    alignItems: 'center',
-                    alignContent: 'center',
-                    justifyContent: 'center',
-                    width: 20,
-                    height: 20,
-                    tintColor: '#fff',
+                    // alignItems: 'center',
+                    // alignContent: 'center',
+                    // justifyContent: 'center',
+                    width: 27,
+                    height: 27,
+                    // tintColor: '#E04F5F',
                   }}
                 />
               </Pressable>
             </View>
             <Modal
-              animationType="slide"
+              
+              animationType="none"
               transparent={true}
               visible={modalVisible}
               onRequestClose={() => {
                 setModalVisible(false);
-              }}>
+              }}
+              >
               <View style={styles.modalView}>
                 <Text
                   style={[
@@ -357,7 +364,8 @@ const BookmarkScreen = ({route, navigation}) => {
           </TouchableOpacity>
         )}
       />
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -367,18 +375,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
+    
     backgroundColor: '#16302B',
   },
   deletebookmarkbutton: {
-    alignSelf: 'flex-end',
-    marginRight: 30,
-    width: 40,
-    height: 40,
-    borderRadius: 35,
-    padding: 10,
-    elevation: 4,
-    backgroundColor: '#E04F5F',
-    top: -65,
+    // flexDirection: 'row',
+    // alignSelf: 'flex-end',
+
+    position: 'absolute',
+    // marginRight: 50,
+    // margin: 35,
+    marginTop: 35,
+    marginLeft: 325,
+    // width: 40,
+    // height: 40,
+    // borderRadius: 35,
+    // padding: 5,
+    // paddingRight: 30,
+    // elevation: 4,
+    // tintColor: '#fff',
+    zIndex: 1,
+    // top: -65,
   },
   button: {
     elevation: 2,
@@ -390,14 +407,19 @@ const styles = StyleSheet.create({
   },
   item: {
     // flex: 1,
+    // borderWidth: 2,
+    // position: 'relative',
     marginHorizontal: 5,
     borderRadius: 10,
-    marginTop: 10,
-    padding: 30,
+    // marginTop: 29,
+    margin: 10,
+    // position: 'relative',
+    padding: 25,
     backgroundColor: '#D9D9D9',
     fontSize: 20,
     fontWeight: 'bold',
     color: '#2F9C95',
+    // zIndex:0
   },
   modalView: {
     margin: 10,
