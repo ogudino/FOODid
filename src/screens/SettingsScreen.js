@@ -11,14 +11,12 @@ import {
   Switch,
   Modal
 } from 'react-native';
-// import { Modal } from 'react-native-paper';
 
 import languageIcon from '../../assets/icons/internet.png';
 import moonIcon from '../../assets/icons/moon.png';
 import termIcon from '../../assets/icons/valid.png';
 import aboutIcon from '../../assets/icons/about.png';
-// import tos from '../../assets/tos.txt'
-// import { Switch } from 'react-native-paper';
+
 
 const PREFERENCES = [
   {
@@ -57,6 +55,8 @@ const GENERAL = [
 
 
 const SettingsScreen = ({navigation}) => {
+  // const theme = useTheme();
+
   const [selectedId, setSelectedId] = React.useState(null);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [darkModeIsEnabled, setDarkModeIsEnabled] = React.useState(false);
@@ -76,7 +76,7 @@ const SettingsScreen = ({navigation}) => {
           setValue(item.description);
           // console.log('this is item:', item.id);
         }}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row' }}>
           <Image style={styles.icon} source={item.icon} />
           <Text style={[styles.item, {paddingLeft: 50}]}>{item.title}</Text>
           {!item.isEnabled ? (

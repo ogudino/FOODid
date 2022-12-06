@@ -130,7 +130,6 @@ const BookmarkScreen = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-            <ScrollView style={styles.scrollView}>
 
       <View>
         <Searchbar
@@ -138,7 +137,7 @@ const BookmarkScreen = ({route, navigation}) => {
           placeholder="Search..."
           placeholderTextColor={'#B5C4D0'}
           // backgroundColor={'#EFF3F6'}
-          style={{borderRadius: 100, height: 50, margin: 10, backgroundColor: '#D9D9D9'} }
+          style={{borderRadius: 100, height: 50, width: 350, margin: 10, backgroundColor: '#D9D9D9', alignSelf: 'center'} }
           // containerStyle={{backgroundColor: 'black'}}
           // inputStyle={{backgroundColor: 'red'}}
           // backgroundColor={'black'}
@@ -150,6 +149,7 @@ const BookmarkScreen = ({route, navigation}) => {
           // iconColor={'black'}
         />
         <FlatList
+        style={styles.flatlist}
           data={bookmarks.barcodes.filter(barcode => {
             const itemName = bookmarks.foodItems.find(
               foodItem => foodItem.barcode === barcode,
@@ -213,6 +213,7 @@ const BookmarkScreen = ({route, navigation}) => {
                   />
                 </Pressable>
               </View>
+
               <Modal
 
               animationType="none"
@@ -399,7 +400,6 @@ const BookmarkScreen = ({route, navigation}) => {
           )}
         />
       </View>
-      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     // borderWidth: 2,
     // position: 'relative',
-    marginHorizontal: 5,
+    marginHorizontal: 10,
     borderRadius: 10,
     // marginTop: 29,
     margin: 10,
@@ -495,11 +495,10 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 16,
   },
-  scrollView: {
-    // marginHorizontal: 5,
-    marginBottom: 130,
-        paddingHorizontal: 20,
+  flatlist: {
+    marginBottom: 210,
+    paddingHorizontal: 20,
 
-    // padding: 10,
+    padding: 10,
   },
 });

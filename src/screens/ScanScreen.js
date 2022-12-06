@@ -7,7 +7,7 @@ import {useIsFocused} from '@react-navigation/native';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Rect } from 'react-native-svg';
+import BarcodeMask from 'react-native-barcode-mask';
 
 const ScanScreen = ({navigation}) => {
   const [hasPermission, setHasPermission] = React.useState(false);
@@ -78,52 +78,18 @@ const ScanScreen = ({navigation}) => {
     }
   };
 
-//   <Rect 
-//   x={0.1*getFrameSize()[0]}
-//   y={0.2*getFrameSize()[1]}
-//   width={0.8*getFrameSize()[0]}
-//   height={0.45*getFrameSize()[1]}
-//   strokeWidth="2"
-//   stroke="red"
-// />
 
-// const frameProcessor = useFrameProcessor((frame) => {
-//   config.template="{\"ImageParameter\":{\"BarcodeFormatIds\":[\"BF_QR_CODE\"],\"Description\":\"\",\"Name\":\"Settings\"},\"Version\":\"3.0\"}"; //scan qrcode only
-//   let settings;
-//   if (config.template){
-//     settings = JSON.parse(config.template);
-//   }else{
-//     const template = 
-//     `{
-//       "ImageParameter": {
-//         "Name": "Settings"
-//       },
-//       "Version": "3.0"
-//     }`;
-//     settings = JSON.parse(template);
-//   }
-//   settings["ImageParameter"]["RegionDefinitionNameArray"] = ["Settings"];
-//   settings["RegionDefinition"] = {
-//                                   "Left": 10,
-//                                   "Right": 90,
-//                                   "Top": 20,
-//                                   "Bottom": 65,
-//                                   "MeasuredByPercentage": 1,
-//                                   "Name": "Settings",
-//                                 };
-//   config.template = JSON.stringify(settings);
-// }
-
-  var [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.UPC_A], {
+  var [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.UPC_A ], {
     checkInverted: true,
-    
   });
+    
 
   React.useEffect(() => {
     (async () => {
       console.log('running');
       const status = await Camera.requestCameraPermission();
       setHasPermission(status === 'authorized');
+
     })();
   }, []);
 
@@ -132,17 +98,48 @@ const ScanScreen = ({navigation}) => {
     setBarcodeFound(false);
   }, [isFocused]);
 
+
+
   return (
     device != null &&
     hasPermission && (
       <>
         <Camera
-          style={styles.camera}
+          // style={styles.camera}
+          style={StyleSheet.absoluteFill}
+          
           device={device}
           isActive={isFocused}
           frameProcessor={frameProcessor}
           frameProcessorFps={5}
+          
         />
+        <BarcodeMask 
+          edgeColor={'white'} 
+          showAnimatedLine={false}
+          edgeBorderWidth={2}
+          height={150}/>
+
+        {/* {barcodes.map((barcode, idx) => (
+          <Text key={idx} style={styles.barcodeTextURL}>
+            
+            {barcode.displayValue}
+          </Text>
+        ))}
+
+         <RNHoleView
+              holes={[ 
+              {
+                x: 60, 
+                y: 220, 
+                width: 300, 
+                height: 180,
+                borderRadius: 10,
+              },
+            ]}
+            style={styles.rnholeView}
+           /> */}
+          
         <Modal
           animationType="slide"
           transparent={true}
@@ -171,7 +168,6 @@ const ScanScreen = ({navigation}) => {
                 color: 'black',
                 alignSelf: 'center',
               }}>
-              Error!
             </Text>
             <Text style={{color: 'black', alignSelf: 'center', margin: 5}}>
               Barcode not recognized:
@@ -460,6 +456,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#8fcbbc',
+    
   },
   modalView: {
     margin: 10,
@@ -485,20 +482,15 @@ const styles = StyleSheet.create({
     marginRight: 15,
     elevation: 2,
   },
-  camera : {
-    flex: 1,
-    // position: 'absolute',
-    // height: 100,
-    // width: 130,
-    // margin: 100,
-    // marginHorizontal: 50,
-    // marginVertical: 200,
+  rnholeView: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
 
-    // transparent: true
-    // marginRight: 100,
-    // padding: 180,
-    // borderWidth: 20,
-    // borderColor: 'black',
   },
   buttonClose: {
     flex: 1,
