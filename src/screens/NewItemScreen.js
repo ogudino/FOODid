@@ -151,7 +151,7 @@ const NewItemScreen = ({route, navigation}) => {
     }
 
     if (foodItem.saturatedfat > 0) {
-      score += 5;
+      score += 3;
     }
 
     console.log('score: ', score);
